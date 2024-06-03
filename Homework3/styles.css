@@ -1,0 +1,43 @@
+#calendar {
+  font-family: Inter;
+  width: 300px;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 6px;
+  text-align: center;
+}
+
+td.today {
+  background-color: #eaeaea;
+}
+
+.calendar-button {
+  padding: 8px 12px 4px;
+  background-color: cornflowerblue;
+  border: none;
+}
+
+.calendar-days {
+  background-color: cornflowerblue;
+  color: white;
+}
