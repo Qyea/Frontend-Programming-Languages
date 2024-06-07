@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <title>Interactive Calendar</title>
+  </head>
+  <body class="wrapper">
+    <div id="calendar">
+      <div class="header">
+        <button class="calendar-button" id="prevBtn">
+          <img alt="arrow" src="./assets/left-arrow.png" width="12px" />
+        </button>
+        <h2 id="monthYear"></h2>
+        <button class="calendar-button" id="nextBtn">
+          <img alt="arrow" src="./assets/right-arrow.png" width="12px" />
+        </button>
+      </div>
+      <table>
+        <thead class="calendar-days">
+          <tr>
+            <th>Sun</th>
+            <th>Mon</th>
+            <th>Tue</th>
+            <th>Wed</th>
+            <th>Thu</th>
+            <th>Fri</th>
+            <th>Sat</th>
+          </tr>
+        </thead>
+        <tbody id="calendarBody"></tbody>
+      </table>
+    </div>
+  </body>
+  <script src="./homework.js"></script>
+</html>
