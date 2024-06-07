@@ -70,22 +70,6 @@ class Calendar {
     cell.appendChild(notesContainer);
   }
 
-  renderNote(cell, dateKey) {
-    const notesContainer = document.createElement('div');
-    notesContainer.classList.add('notes-container');
-
-    console.log(this.notes);
-
-    this.notes[dateKey].forEach((note) => {
-      const noteElement = this.createNoteElement(note, dateKey);
-      if (note.dateKey === dateKey) {
-        notesContainer.appendChild(noteElement);
-      }
-    });
-
-    cell.appendChild(notesContainer);
-  }
-
   createNoteElement(note, dateKey) {
     const noteElement = document.createElement('div');
     noteElement.classList.add('note');
