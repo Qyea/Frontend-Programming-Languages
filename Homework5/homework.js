@@ -63,14 +63,15 @@ class Calendar {
     notesContainer.classList.add('notes-container');
 
     this.notes[dateKey].forEach((note) => {
-      const noteElement = this.createNoteElement(note, dateKey);
+      const noteElement = this.createNoteElement(note, dateKey, cell);
       notesContainer.appendChild(noteElement);
     });
 
     cell.appendChild(notesContainer);
+    cell.classList.add('noted');
   }
 
-  createNoteElement(note, dateKey) {
+  createNoteElement(note, dateKey, cell) {
     const noteElement = document.createElement('div');
     noteElement.classList.add('note');
     noteElement.textContent = note;
@@ -80,7 +81,7 @@ class Calendar {
     deleteButton.textContent = 'x';
 
     deleteButton.addEventListener('click', () => {
-      this.deleteNoteFromDate(dateKey, note);
+      this.deleteNoteFromDate(dateKey, note, cell);
       noteElement.remove();
     });
 
@@ -124,7 +125,7 @@ class Calendar {
   }
 
   handleCellClick(event, cell) {
-    //Because of event
+    //Because of event bubbling
     const target = event.target;
     if (target.tagName.toLowerCase() === 'input') {
       return;
@@ -136,6 +137,7 @@ class Calendar {
     input.setAttribute('type', 'text');
     input.setAttribute('placeholder', 'Write here your note!');
     input.classList.add('note-input');
+    cell.classList.add('noted');
 
     const saveButton = document.createElement('button');
 
@@ -146,14 +148,13 @@ class Calendar {
       const note = input.value.trim();
       if (note !== '') {
         this.addNoteToDate(dateKey, note);
-        const noteElement = this.createNoteElement(note, dateKey);
+        const noteElement = this.createNoteElement(note, dateKey, cell);
 
         const existingNotes = cell.querySelectorAll('.note');
         const existingDivs = cell.querySelector('.notes-container');
-        console.log(existingNotes);
+
         if (existingNotes !== null) {
           existingNotes.forEach((existingNote) => {
-            console.log(existingNote);
             existingNote.remove();
             existingDivs.remove();
           });
@@ -191,7 +192,7 @@ class Calendar {
     this.saveNotesToLocalStorage();
   }
 
-  deleteNoteFromDate(dateKey, note) {
+  deleteNoteFromDate(dateKey, note, cell) {
     if (dateKey in this.notes) {
       const index = this.notes[dateKey].indexOf(note);
       if (index !== -1) {
@@ -201,6 +202,10 @@ class Calendar {
         }
         this.saveNotesToLocalStorage();
       }
+    }
+    if (this.notes[dateKey] === undefined) {
+      cell.classList.remove('noted');
+      cell.querySelector('.notes-container').remove();
     }
   }
 
