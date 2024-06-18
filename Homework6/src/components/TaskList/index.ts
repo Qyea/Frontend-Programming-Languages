@@ -1,69 +1,21 @@
 import { Task } from '../../types';
+import { filterTasks } from '../Filter';
 
-const addTaskForm = document.getElementById('addTaskForm');
-const taskList = document.getElementById('taskList') as HTMLTableElement;
-const showCompletedCheckbox = document.getElementById(
-  'showCompleted'
-) as HTMLInputElement;
-const searchInput = document.getElementById('search') as HTMLInputElement;
-const minDateInput = document.getElementById('minDate') as HTMLInputElement;
-const maxDateInput = document.getElementById('maxDate') as HTMLInputElement;
-
-let tasks: Task[] = [];
-
-export function addTask() {
-  const titleInput = document.getElementById('title') as HTMLInputElement;
-  const descriptionInput = document.getElementById(
-    'description'
-  ) as HTMLInputElement;
-  const dateInput = document.getElementById('date') as HTMLInputElement;
-  const priorityInput = document.getElementById('priority') as HTMLInputElement;
-
-  const task: Task = {
-    title: titleInput.value,
-    description: descriptionInput.value,
-    date: dateInput.value,
-    priority: priorityInput.value,
-    completed: false,
-  };
-
-  tasks.push(task);
-  renderTaskList();
-}
-
-function filterTasks() {
-  const showCompleted = showCompletedCheckbox.checked;
-  const searchKeyword = searchInput.value.toLowerCase();
-  const minDate = minDateInput.value;
-  const maxDate = maxDateInput.value;
-
-  return tasks.filter((task) => {
-    if (!showCompleted && task.completed) {
-      return false;
-    }
-
-    if (
-      searchKeyword &&
-      !task.title.toLowerCase().includes(searchKeyword) &&
-      !task.description.toLowerCase().includes(searchKeyword)
-    ) {
-      return false;
-    }
-
-    if (minDate && task.date < minDate) {
-      return false;
-    }
-
-    if (maxDate && task.date > maxDate) {
-      return false;
-    }
-
-    return true;
-  });
-}
-
-export function renderTaskList() {
-  const filteredTasks = filterTasks();
+export function renderTaskList(
+  tasks: Task[],
+  taskList: HTMLTableElement,
+  showCompletedCheckbox: HTMLInputElement,
+  searchInput: HTMLInputElement,
+  minDateInput: HTMLInputElement,
+  maxDateInput: HTMLInputElement
+) {
+  const filteredTasks = filterTasks(
+    tasks,
+    showCompletedCheckbox,
+    searchInput,
+    minDateInput,
+    maxDateInput
+  );
 
   taskList.innerHTML = '';
 
@@ -98,8 +50,3 @@ export function renderTaskList() {
     taskList.appendChild(row);
   });
 }
-
-showCompletedCheckbox.addEventListener('change', renderTaskList);
-searchInput.addEventListener('input', renderTaskList);
-minDateInput.addEventListener('change', renderTaskList);
-maxDateInput.addEventListener('change', renderTaskList);
