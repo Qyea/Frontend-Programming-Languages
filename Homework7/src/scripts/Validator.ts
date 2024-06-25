@@ -8,6 +8,29 @@ export class Validator {
     this.errorContainer = null;
   }
 
+  checkError(field: HTMLInputElement) {
+    field.value;
+    if (field?.value.replace(/ /g, "") === "") {
+      switch (field.type) {
+        case "text":
+          this.createError(field, "*Title is required");
+          break;
+        case "date":
+          this.createError(field, "*Date is required");
+          break;
+        case "select-one":
+          this.createError(field, "*Priority is required");
+          break;
+        case "textarea":
+          this.createError(field, "*Description is required");
+          break;
+        default:
+          return false;
+      }
+      return true;
+    }
+  }
+
   createError(field: HTMLInputElement, message: string) {
     field.classList.add("error");
     field.addEventListener("input", () => {

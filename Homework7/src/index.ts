@@ -10,6 +10,13 @@ const validator = new Validator();
 
 let tasks: Task[] = [];
 
+function removePopup(popupElement: HTMLElement) {
+  const parentElement = popupElement.parentNode;
+  if (parentElement) {
+    parentElement.removeChild(popupElement);
+  }
+}
+
 const addTaskForm = document.getElementById("addTaskForm") as HTMLFormElement;
 const taskList = document.getElementById("taskList") as HTMLTableElement;
 const showCompletedCheckbox = document.getElementById(
@@ -29,29 +36,28 @@ addTaskForm.addEventListener("submit", function (event: Event) {
   ) as HTMLInputElement;
 
   //Usage of my Validator
-  if (!titleField?.value || titleField?.value.replace(/ /g, "") === "") {
-    validator.createError(
-      titleField ? titleField : document.createElement("input"),
-      "*Title is required"
-    );
-  } else if (!dateField?.value) {
-    validator.createError(
-      dateField ? dateField : document.createElement("input"),
-      "*Date is required"
-    );
-  } else if (!priorityField?.value) {
-    validator.createError(
-      priorityField ? priorityField : document.createElement("input"),
-      "*Priority is required"
-    );
-  } else if (
-    !descriptionField?.value ||
-    titleField?.value.replace(/ /g, "") === ""
+  if (
+    validator.checkError(titleField) ||
+    validator.checkError(dateField) ||
+    validator.checkError(priorityField) ||
+    validator.checkError(descriptionField)
   ) {
-    validator.createError(
-      descriptionField ? descriptionField : document.createElement("input"),
-      "*Description is required"
-    );
+    const popupElement = document.createElement("div");
+    const icon = new Image(16, 16);
+    icon.src = "https://www.svgrepo.com/show/157825/error.svg";
+
+    popupElement.className = "popup";
+
+    popupElement.textContent = "Validation error, fill in the required fields!";
+    popupElement.appendChild(icon);
+
+    document.body.appendChild(popupElement);
+
+    setTimeout(() => {
+      if (popupElement.parentNode !== null) {
+        popupElement.parentNode.removeChild(popupElement);
+      }
+    }, 2000);
   }
   // everything is okay
   else {
