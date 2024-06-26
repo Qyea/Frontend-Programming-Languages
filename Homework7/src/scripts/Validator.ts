@@ -46,7 +46,9 @@ export class Validator {
 
     const errorText = document.createElement("p");
     errorText.textContent = message;
-    this.errorContainer.appendChild(errorText);
+    if (this.errorContainer.children.length === 0) {
+      this.errorContainer.appendChild(errorText);
+    }
   }
 
   showError(message: string) {
