@@ -25,7 +25,7 @@ const currencies = [
   },
 ];
 
-export const ConvertSelector = ({ currency, onChangeCurrency }: Props) => {
+export function ConvertSelector({ currency, onChangeCurrency }: Props) {
   return (
     <div>
       <TextField
@@ -34,6 +34,8 @@ export const ConvertSelector = ({ currency, onChangeCurrency }: Props) => {
         label="Select"
         defaultValue="EUR"
         helperText="Please select your currency"
+        onChange={onChangeCurrency}
+        value={currency}
       >
         {currencies.map((option) => (
           <MenuItem key={option.value} value={option.value}>
@@ -43,4 +45,4 @@ export const ConvertSelector = ({ currency, onChangeCurrency }: Props) => {
       </TextField>
     </div>
   );
-};
+}

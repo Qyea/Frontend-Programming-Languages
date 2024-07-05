@@ -1,11 +1,11 @@
 import TextField from "@mui/material/TextField";
 
 type Props = {
-  amount: string;
+  amount: string | number;
   setAmount: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const ConvertInput = ({ amount, setAmount }: Props) => {
+export function ConvertInput({ amount, setAmount }: Props) {
   return (
     <div>
       <TextField
@@ -18,4 +18,4 @@ export const ConvertInput = ({ amount, setAmount }: Props) => {
       />
     </div>
   );
-};
+}
