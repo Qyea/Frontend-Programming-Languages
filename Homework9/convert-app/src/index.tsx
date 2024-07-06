@@ -12,6 +12,26 @@ const theme = createTheme({
       main: "#A3EBB1",
     },
   },
+  typography: {
+    h1: {
+      fontSize: "3rem",
+      fontWeight: 600,
+      color: "#47476b",
+    },
+    h2: {
+      fontSize: "2.5rem",
+      fontWeight: 400,
+      color: "#18A558",
+    },
+    h3: {
+      fontSize: "1.5rem",
+      color: "#18A558",
+    },
+    h6: {
+      fontSize: "1.5rem",
+      color: "#47476b",
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(

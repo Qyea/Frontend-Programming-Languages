@@ -1,53 +1,106 @@
-import { useState } from "react";
-
-import Grid from "@mui/material/Unstable_Grid2";
-
-import IconButton from "@mui/material/IconButton";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
-
+import { useState, useEffect } from "react";
+// MUI components
+import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
-
+import IconButton from "@mui/material/IconButton";
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+// My components
+import { getCurrency } from "../../API/APIUtils";
 import { ConvertInput } from "./input";
 import { ConvertSelector } from "./selector";
+import { ConvertLabel } from "./label";
 
 export const Calculator = () => {
   const [amount, setAmount] = useState("");
+  const [result, setResult] = useState(0);
 
-  const [currency, setCurrency] = useState("");
-  const [toCurrency, setToCurrency] = useState("");
+  const [fromCurrency, setFromCurrency] = useState("eur");
+  const [toCurrency, setToCurrency] = useState("usd");
+
+  const [fromPrice, setFromPrice] = useState(0);
+  const [toPrice, setToPrice] = useState(0);
+
+  useEffect(() => {
+    onChangeFromPrice();
+  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.replace(/\D/g, "");
-    setAmount(value);
+    setAmount(event.target.value);
+  };
+
+  const onClickChangeCurrency = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+
+    setFromPrice(toPrice);
+    setToPrice(fromPrice);
+
+    calculatePrice(toPrice);
+  };
+
+  const calculatePrice = (fromPriceValue: number) => {
+    let finalPrice = Number(amount) * fromPriceValue;
+    const roundedNumber = parseFloat(finalPrice.toFixed(3));
+    setResult(roundedNumber);
+  };
+
+  const onChangeFromPrice = async () => {
+    try {
+      const resultFrom = await getCurrency(fromCurrency, toCurrency);
+      const resultTo = await getCurrency(toCurrency, fromCurrency);
+
+      const fromPriceValue = Number(resultFrom);
+      const toPriceValue = Number(resultTo);
+
+      setFromPrice(fromPriceValue);
+      setToPrice(toPriceValue);
+
+      calculatePrice(fromPriceValue);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <div>
-      <Typography variant="h2">I want to convert</Typography>
-      <div>
-        <Grid container spacing={0.5}>
-          <ConvertInput amount={amount} setAmount={handleInputChange} />
-          <ConvertSelector
-            currency={currency}
-            onChangeCurrency={(cur: React.ChangeEvent<HTMLInputElement>) => {
-              console.log(cur.target.value);
-              setCurrency(cur.target.value);
-            }}
-          />
-          <IconButton aria-label="delete">
-            <CurrencyExchangeIcon />
-          </IconButton>
-          <ConvertSelector
-            currency={toCurrency}
-            onChangeCurrency={(cur: React.ChangeEvent<HTMLInputElement>) => {
-              console.log(cur.target.value);
-              setToCurrency(cur.target.value);
-            }}
-          />
-          <Button variant="contained">Convert</Button>
-        </Grid>
-      </div>
+      <Typography variant="h1">I want to convert</Typography>
+
+      <Box display="flex" alignItems="start" gap="3rem" sx={{ py: 6 }}>
+        <ConvertInput amount={amount} setAmount={handleInputChange} />
+        <ConvertSelector
+          currency={fromCurrency}
+          onChangeCurrency={(cur: React.ChangeEvent<HTMLInputElement>) => {
+            setFromCurrency(cur.target.value);
+          }}
+          currencyType="from-currency"
+        />
+        <IconButton
+          onClick={onClickChangeCurrency}
+          aria-label="currency-exchange"
+        >
+          <CurrencyExchangeIcon />
+        </IconButton>
+        <ConvertSelector
+          currency={toCurrency}
+          onChangeCurrency={(cur: React.ChangeEvent<HTMLInputElement>) => {
+            setToCurrency(cur.target.value);
+          }}
+          currencyType="to-currency"
+        />
+        <Button onClick={onChangeFromPrice} variant="contained">
+          Convert
+        </Button>
+      </Box>
+
+      <ConvertLabel
+        fromAmount={amount}
+        fromCurrency={fromCurrency}
+        toAmount={result}
+        toCurrency={toCurrency}
+        fromPrice={fromPrice}
+        toPrice={toPrice}
+      />
     </div>
   );
 };

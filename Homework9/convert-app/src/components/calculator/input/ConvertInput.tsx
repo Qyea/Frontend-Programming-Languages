@@ -5,17 +5,20 @@ type Props = {
   setAmount: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function ConvertInput({ amount, setAmount }: Props) {
+export const ConvertInput = function ({ amount, setAmount }: Props) {
   return (
     <div>
       <TextField
-        id="standard-basic"
+        id="amount"
         label="Amount"
         variant="standard"
+        type="number"
+        InputLabelProps={{
+          shrink: true,
+        }}
         value={amount}
         onChange={setAmount}
-        required
       />
     </div>
   );
-}
+};
