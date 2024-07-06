@@ -5,7 +5,7 @@ import { getCurrencies } from "../../../API/APIUtils";
 
 type Props = {
   currency: string;
-  onChangeCurrency: any;
+  onChangeCurrency: (event: React.ChangeEvent<HTMLInputElement>) => void;
   currencyType: string;
 };
 
