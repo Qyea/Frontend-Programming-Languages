@@ -1,7 +1,9 @@
+import React, { useEffect, useState } from "react";
+
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 
-import { getCurrencies } from "../../../API/APIUtils";
+import { getCurrencies } from "../../../api/APIUtils";
 
 type Props = {
   currency: string;
@@ -9,42 +11,37 @@ type Props = {
   currencyType: string;
 };
 
-const tempCurrencies = getCurrencies();
-
-console.log(tempCurrencies);
-
-const currencies = [
-  {
-    value: "usd",
-    label: "$",
-  },
-  {
-    value: "eur",
-    label: "€",
-  },
-  {
-    value: "btc",
-    label: "฿",
-  },
-  {
-    value: "jpy",
-    label: "¥",
-  },
-  {
-    value: "rub",
-    label: "₽",
-  },
-  {
-    value: "byn",
-    label: "Br",
-  },
-];
+async function processData() {
+  try {
+    const data = await getCurrencies();
+    const keys = Object.keys(data);
+    return keys;
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export const ConvertSelector = function ({
   currency,
   onChangeCurrency,
   currencyType,
 }: Props) {
+  const [currencyKeys, setCurrencyKeys] = useState<string[] | undefined>(
+    undefined
+  );
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const keys = await processData();
+        setCurrencyKeys(keys);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  }, []);
+
   const currencyLabel = currencyType === "from-currency" ? "From" : "To";
 
   return (
@@ -61,11 +58,13 @@ export const ConvertSelector = function ({
           id: currencyType,
         }}
       >
-        {currencies.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
-          </MenuItem>
-        ))}
+        {currencyKeys
+          ? currencyKeys.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))
+          : []}
       </TextField>
     </div>
   );

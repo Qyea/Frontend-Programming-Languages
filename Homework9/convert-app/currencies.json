@@ -1,0 +1,14 @@
+{
+  "currency": {
+    "eur": "Euro",
+    "usd": "US Dollar",
+    "rub": "Russian Ruble",
+    "byn": "Belarusian Ruble",
+    "btc": "Bitcoin",
+    "chf": "Swiss Franc",
+    "gbp": "British Pound",
+    "jpy": "Japanese Yen",
+    "cny": "Chinese Yuan Renminbi",
+    "kwd": "Kuwaiti Dinar"
+  }
+}

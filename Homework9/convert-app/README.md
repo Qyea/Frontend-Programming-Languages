@@ -24,15 +24,14 @@ To achieve that, you can use APIs from the next urls:
 
 ## Available Scripts
 
-In the project directory, you can run:
+First you need to run a mock-server with currency data
+All necessary data will be posted on [http://localhost:3000/currency](http://localhost:3000/currency)
+
+### `npm run server`
+
+Then you should run this app on another port:
 
 ### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
 ## Learn More
 

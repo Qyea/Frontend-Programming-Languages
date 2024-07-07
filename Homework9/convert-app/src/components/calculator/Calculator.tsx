@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 // MUI components
+import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 import { Box } from "@mui/material";
 import { Typography } from "@mui/material";
 import Button from "@mui/material/Button";
+
 import IconButton from "@mui/material/IconButton";
-import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
+
 // My components
-import { getCurrency } from "../../API/APIUtils";
+import { getCurrency } from "../../api/APIUtils";
 import { ConvertInput } from "./input";
 import { ConvertSelector } from "./selector";
 import { ConvertLabel } from "./label";

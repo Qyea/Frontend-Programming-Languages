@@ -21,9 +21,7 @@ export const getCurrency = async (
 
 export const getCurrencies = async () => {
   try {
-    const response = await fetch(
-      `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json`
-    );
+    const response = await fetch(`http://localhost:3000/currency`);
     const data = await response.json();
 
     if (data) {
