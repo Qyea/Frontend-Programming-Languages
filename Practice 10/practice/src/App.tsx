@@ -1,8 +1,10 @@
+import { Form } from "./components/Form/Form";
 import { List } from "./components/List";
 
 function App() {
   return (
     <div>
+      <Form />
       <List>
         {[1, 2, 3].map((item) => {
           return (
