@@ -13,7 +13,11 @@ import { ConvertInput } from "./input";
 import { ConvertSelector } from "./selector";
 import { ConvertLabel } from "./label";
 
+import { useContext } from "react";
+import { Context, ContextState } from "../../context";
 export const Calculator = () => {
+  const { state, setState } = useContext(Context);
+
   const [amount, setAmount] = useState("");
   const [result, setResult] = useState(0);
 
@@ -45,6 +49,10 @@ export const Calculator = () => {
     let finalPrice = Number(amount) * fromPriceValue;
     const roundedNumber = parseFloat(finalPrice.toFixed(3));
     setResult(roundedNumber);
+
+    // Context
+    setState([...state, { date: new Date(), rate: roundedNumber }]);
+    console.log(state);
   };
 
   const onChangeFromPrice = async () => {

@@ -1,19 +1,18 @@
 import { createContext, useContext } from "react";
 
-type ContextState = {
-  title: string;
+export type ContextState = {
+  rate: number;
+  date: Date;
 };
 
-type ContextType = {
-  state: ContextState;
-  setState: (state: ContextState) => void;
+export type ContextType = {
+  state: ContextState[];
+  setState: (state: ContextState[]) => void;
 };
 
-const defaultState = {
-  state: {
-    title: "Hello World",
-  },
-  setState: () => {},
+const defaultState: ContextType = {
+  state: [],
+  setState: (state: ContextState[]) => {},
 };
 
 export const Context = createContext<ContextType>(defaultState);

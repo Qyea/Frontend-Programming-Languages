@@ -4,7 +4,7 @@ import { Header } from "./components/Header";
 
 export const Layout = () => {
   return (
-    <Box>
+    <Box sx={{ flexGrow: 1 }}>
       <Header />
       <Box>
         <Outlet />

@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import FindReplaceIcon from "@mui/icons-material/FindReplace";
+import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 
 export const Header = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+    <Box sx={{ flexGrow: 1, backgroundColor: "white" }}>
+      <AppBar position="static" style={{ backgroundColor: "white" }}>
         <Toolbar>
           <Box
             sx={{
@@ -16,19 +18,27 @@ export const Header = () => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Typography variant="h6">Currency</Typography>
-              <Typography variant="h5">Exchange</Typography>
+              <Button variant="text" sx={{ textTransform: "none" }}>
+                <FindReplaceIcon />
+                <Typography variant="h6">Currency</Typography>
+                <Typography variant="h5" color="#47476b">
+                  Exchange
+                </Typography>
+              </Button>
             </Box>
             <Box sx={{ display: "flex", alignItems: "center", gap: "20px" }}>
-              <Link to="/">
+              <Link style={{ textDecoration: "none", color: "#47476b" }} to="/">
                 <Typography>Currency Converter</Typography>
               </Link>
-              <Link to="/history">
+              <Link
+                style={{ textDecoration: "none", color: "#47476b" }}
+                to="/history"
+              >
                 <Typography>View Conversion History</Typography>
               </Link>
             </Box>
           </Box>
-          <Button color="inherit">Login</Button>
+          <Button color="primary">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>
