@@ -8,21 +8,28 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 
 // My components
-import { getCurrency } from "../../api/APIUtils";
+import { getCurrency, getCurrencyHistory } from "../../api/APIUtils";
 import { ConvertInput } from "./input";
 import { ConvertSelector } from "./selector";
 import { ConvertLabel } from "./label";
 
 import { useContext } from "react";
-import { Context, ContextState } from "../../context";
+import { Context } from "../../context";
+
 export const Calculator = () => {
   const { state, setState } = useContext(Context);
 
-  const [amount, setAmount] = useState("");
+  const [amount, setAmount] = useState(
+    state.length === 0 ? "" : state[state.length - 1].amount
+  );
   const [result, setResult] = useState(0);
 
-  const [fromCurrency, setFromCurrency] = useState("eur");
-  const [toCurrency, setToCurrency] = useState("usd");
+  const [fromCurrency, setFromCurrency] = useState(
+    state.length === 0 ? "eur" : state[state.length - 1].fromCurrency
+  );
+  const [toCurrency, setToCurrency] = useState(
+    state.length === 0 ? "usd" : state[state.length - 1].toCurrency
+  );
 
   const [fromPrice, setFromPrice] = useState(0);
   const [toPrice, setToPrice] = useState(0);
@@ -45,14 +52,30 @@ export const Calculator = () => {
     calculatePrice(toPrice);
   };
 
-  const calculatePrice = (fromPriceValue: number) => {
+  const calculatePrice = async (fromPriceValue: number) => {
     let finalPrice = Number(amount) * fromPriceValue;
     const roundedNumber = parseFloat(finalPrice.toFixed(3));
     setResult(roundedNumber);
 
-    // Context
-    setState([...state, { date: new Date(), rate: roundedNumber }]);
-    console.log(state);
+    if (
+      state.length === 0 ||
+      (state.length > 0 &&
+        (amount !== state[state.length - 1].amount ||
+          fromPriceValue !== state[state.length - 1].rate))
+    ) {
+      const history = await getCurrencyHistory(fromCurrency, toCurrency);
+
+      // Context
+      const newHistoryExchange = {
+        fromCurrency: fromCurrency,
+        toCurrency: toCurrency,
+        amount: amount,
+        rate: fromPriceValue,
+        history: history,
+      };
+      setState([...state, newHistoryExchange]);
+      console.log(state);
+    }
   };
 
   const onChangeFromPrice = async () => {

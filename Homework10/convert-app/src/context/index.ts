@@ -1,14 +1,5 @@
 import { createContext, useContext } from "react";
-
-export type ContextState = {
-  rate: number;
-  date: Date;
-};
-
-export type ContextType = {
-  state: ContextState[];
-  setState: (state: ContextState[]) => void;
-};
+import { ContextState, ContextType } from "./../types";
 
 const defaultState: ContextType = {
   state: [],

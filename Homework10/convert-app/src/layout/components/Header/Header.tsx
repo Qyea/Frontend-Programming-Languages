@@ -36,6 +36,12 @@ export const Header = () => {
               >
                 <Typography>View Conversion History</Typography>
               </Link>
+              <Link
+                style={{ textDecoration: "none", color: "#47476b" }}
+                to="/about"
+              >
+                <Typography>About</Typography>
+              </Link>
             </Box>
           </Box>
           <Button color="primary">Login</Button>
