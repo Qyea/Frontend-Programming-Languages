@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
+
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 import FindReplaceIcon from "@mui/icons-material/FindReplace";
-import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 
 export const Header = () => {
@@ -18,7 +18,12 @@ export const Header = () => {
             }}
           >
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Button variant="text" sx={{ textTransform: "none" }}>
+              <Button
+                variant="text"
+                sx={{ textTransform: "none" }}
+                component={Link}
+                to="/"
+              >
                 <FindReplaceIcon />
                 <Typography variant="h6">Currency</Typography>
                 <Typography variant="h5" color="#47476b">

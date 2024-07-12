@@ -5,7 +5,14 @@ import { Box } from "@mui/material";
 
 function App() {
   return (
-    <Box sx={{ padding: 0, margin: 0, backgroundColor: "#f8f7fb" }}>
+    <Box
+      sx={{
+        padding: 0,
+        margin: 0,
+        backgroundColor: "#f8f7fb",
+        minHeight: "100vh",
+      }}
+    >
       <ContextProvider>
         <RouterProvider router={router} />
       </ContextProvider>

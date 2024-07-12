@@ -1,6 +1,6 @@
 import { PropsWithChildren, useState } from "react";
 import { Context } from ".";
-import { ContextState, ContextType } from "./../types";
+import { ContextState } from "./../types";
 
 export const ContextProvider = ({ children }: PropsWithChildren) => {
   const [state, setState] = useState<ContextState[]>([]);

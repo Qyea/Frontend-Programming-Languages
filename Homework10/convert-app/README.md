@@ -20,8 +20,6 @@ To achieve that, you can use APIs from the next urls:
 
 ## App preview
 
-![alt text](Convert-App.gif)
-
 ## Available Scripts
 
 First you need to run a mock-server with currency data

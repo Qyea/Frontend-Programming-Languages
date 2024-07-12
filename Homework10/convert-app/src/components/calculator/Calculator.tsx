@@ -38,6 +38,29 @@ export const Calculator = () => {
     onChangeFromPrice();
   }, []);
 
+  useEffect(() => {
+    if (
+      state.length === 0 ||
+      (state.length > 0 && fromPrice !== state[state.length - 1].rate)
+    ) {
+      const fetchCurrencyHistory = async () => {
+        const history = await getCurrencyHistory(fromCurrency, toCurrency);
+
+        const newHistoryExchange = {
+          fromCurrency: fromCurrency,
+          toCurrency: toCurrency,
+          amount: amount,
+          rate: fromPrice,
+          history: history,
+        };
+
+        setState([...state, newHistoryExchange]);
+      };
+
+      fetchCurrencyHistory();
+    }
+  }, [amount, fromPrice, fromCurrency, toCurrency, state]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(event.target.value);
   };
@@ -56,26 +79,6 @@ export const Calculator = () => {
     let finalPrice = Number(amount) * fromPriceValue;
     const roundedNumber = parseFloat(finalPrice.toFixed(3));
     setResult(roundedNumber);
-
-    if (
-      state.length === 0 ||
-      (state.length > 0 &&
-        (amount !== state[state.length - 1].amount ||
-          fromPriceValue !== state[state.length - 1].rate))
-    ) {
-      const history = await getCurrencyHistory(fromCurrency, toCurrency);
-
-      // Context
-      const newHistoryExchange = {
-        fromCurrency: fromCurrency,
-        toCurrency: toCurrency,
-        amount: amount,
-        rate: fromPriceValue,
-        history: history,
-      };
-      setState([...state, newHistoryExchange]);
-      console.log(state);
-    }
   };
 
   const onChangeFromPrice = async () => {
@@ -99,7 +102,7 @@ export const Calculator = () => {
     <div>
       <Typography variant="h1">I want to convert</Typography>
 
-      <Box display="flex" alignItems="start" gap="3rem" sx={{ py: 6 }}>
+      <Box display="flex" alignItems="start" gap="3rem" sx={{ pt: 4, pb: 1 }}>
         <ConvertInput amount={amount} setAmount={handleInputChange} />
         <ConvertSelector
           currency={fromCurrency}
